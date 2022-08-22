@@ -66,12 +66,21 @@
         android:visibility="invisible"/>
 
     <Button
-        android:id="@+id/btn_open_camera"
+        android:id="@+id/btn_take_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:onClick="openCamera"
-        android:text="@string/btn_open_camera"
+        android:text="@string/btn_take_photo"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/btn_capture_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="openCamera"
+        android:text="@string/btn_capture_video"
         android:visibility="invisible"/>
 
 </LinearLayout>

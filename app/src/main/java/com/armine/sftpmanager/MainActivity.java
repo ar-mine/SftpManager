@@ -7,14 +7,10 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -37,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
@@ -46,9 +41,10 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_VIDEO_CAPTURE = 2;
     static final String TAG = "MainActivity";
 
-    Button btn_connect, btn_switch_folder, btn_open_camera;
+    Button btn_connect, btn_switch_folder, btn_take_photo, btn_capture_video;
     EditText eIP, ePort, eUser, ePassword;
     ProgressDialog mProgressDialog;
     String IP, port, user, password;
@@ -64,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         btn_connect = findViewById(R.id.btn_connect);
         btn_switch_folder = findViewById(R.id.btn_switch_folder);
-        btn_open_camera = findViewById(R.id.btn_open_camera);
+        btn_take_photo = findViewById(R.id.btn_take_photo);
+        btn_capture_video = findViewById(R.id.btn_capture_video);
 
         // Permission check
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -151,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
             btn_connect.setText(R.string.btn_logout);
             btn_switch_folder.setVisibility(View.VISIBLE);
-            btn_open_camera.setVisibility(View.VISIBLE);
+            btn_take_photo.setVisibility(View.VISIBLE);
+            btn_capture_video.setVisibility(View.VISIBLE);
 
             connectFlag = true;
         } else {
@@ -165,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
         // After disconnection
         btn_connect.setText(R.string.btn_connect);
         btn_switch_folder.setVisibility(View.INVISIBLE);
-        btn_open_camera.setVisibility(View.INVISIBLE);
+        btn_take_photo.setVisibility(View.INVISIBLE);
+        btn_capture_video.setVisibility(View.INVISIBLE);
 
         connectFlag = false;
     }
@@ -179,7 +178,10 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, noInitResourceStr);
             Snackbar.make(view, noInitResourceStr, Snackbar.LENGTH_LONG).show();
         }else {
-            takePhoto();
+            if(view.getId() == R.id.btn_take_photo)
+                takePhoto();
+            else if(view.getId() == R.id.btn_capture_video)
+                captureVideo();
         }
     }
 
@@ -207,6 +209,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void captureVideo() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+        }
+    }
+
     String currentPhotoPath;
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -227,14 +236,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+        if(requestCode == REQUEST_IMAGE_CAPTURE) {
             if(resultCode == RESULT_OK){
                 Uri uri_temp = photoURI;
                 // Upload and revoke openCamera again
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        uploadPhoto(uri_temp);
+                        uploadFile(uri_temp);
                     }
                 }, 500);
                 takePhoto();
@@ -254,10 +263,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        else if(requestCode == REQUEST_VIDEO_CAPTURE){
+            if(resultCode == RESULT_OK){
+                Uri videoUri = data.getData();
+                uploadFile(videoUri);
+            }
+        }
     }
 
     byte[] fileUpBytes;
-    private void uploadPhoto(Uri uri){
+    private void uploadFile(Uri uri){
         Globals.fileUpName = FolderActivity.getFileName(uri);
 
         Log.d("UPLOAD", "got: " + uri);

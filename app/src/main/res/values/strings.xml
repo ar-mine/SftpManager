@@ -11,7 +11,8 @@
     <string name="btn_connect">Connect</string>
     <string name="btn_logout">Logout</string>
     <string name="btn_switch_folder">Folder</string>
-    <string name="btn_open_camera">Camera</string>
+    <string name="btn_take_photo">Take Photo</string>
+    <string name="btn_capture_video">Cap Video</string>
 
     <string name="sever_content">/home/armine/Pictures</string>
 </resources>
