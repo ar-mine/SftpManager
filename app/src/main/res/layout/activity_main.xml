@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv0"
+        android:textAlignment="center"
+        android:textColor="?attr/editTextColor"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/register_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/ev_ip"
+        android:inputType="text"
+        android:autofillHints="192.168.1.158" />
+
+    <EditText
+        android:id="@+id/register_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/ev_port"
+        android:inputType="numberDecimal"
+        android:autofillHints="22" />
+
+    <EditText
+        android:id="@+id/register_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/ev_user"
+        android:inputType="textPersonName"
+        android:autofillHints="armine" />
+
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/ev_password"
+        android:inputType="textPassword"
+        android:autofillHints="13460991701" />
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="saveConnection"
+        android:text="@string/btn_connect" />
+
+    <Button
+        android:id="@+id/btn_switch_folder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="switchFolder"
+        android:text="@string/btn_switch_folder"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/btn_open_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="openCamera"
+        android:text="@string/btn_open_camera"
+        android:visibility="invisible"/>
+
+</LinearLayout>

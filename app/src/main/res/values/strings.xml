@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">SftpManager</string>
+
+    <string name="tv0">Connect to</string>
+
+    <string name="ev_ip">IP address</string>
+    <string name="ev_port">Port</string>
+    <string name="ev_user">User</string>
+    <string name="ev_password">password</string>
+
+    <string name="btn_connect">Connect</string>
+    <string name="btn_logout">Logout</string>
+    <string name="btn_switch_folder">Folder</string>
+    <string name="btn_open_camera">Camera</string>
+
+    <string name="sever_content">/home/armine/Pictures</string>
+</resources>
